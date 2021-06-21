@@ -26,9 +26,6 @@ import NewAccount from './pages/auth/accounts/NewAccount';
 
 
 // load stripe
-import { stripeConfig } from "./inc/stripe.json";
-import { Elements } from '@stripe/react-stripe-js';
-import {loadStripe} from '@stripe/stripe-js';
 import Overview from './pages/auth/accounts/Overview';
 import UserList from './pages/auth/accounts/UserList';
 import UserRole from './pages/auth/accounts/UserRole';
@@ -37,12 +34,10 @@ import Invite from './pages/auth/user/Invite';
 import PaymentList from './pages/auth/accounts/PaymentList';
 import PaymentMethod from './pages/auth/accounts/PaymentMethod';
 import DeleteAccount from './pages/auth/accounts/DeleteAccount';
-const stripePromise = loadStripe(stripeConfig.public_api_key);
 
 
 function App() {
 	return (
-		<Elements stripe={stripePromise}>
 			<AuthProvider>
 				<Router>
 					<Switch>
@@ -70,7 +65,6 @@ function App() {
 					</Switch>
 				</Router>
 			</AuthProvider>
-		</Elements>
 	);
 }
 

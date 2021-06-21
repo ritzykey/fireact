@@ -3,7 +3,6 @@ import { FirebaseAuth, CloudFunctions } from "../../../../components/FirebaseAut
 import { AuthContext } from "../../../../components/FirebaseAuth";
 import { BreadcrumbContext } from '../../../../components/Breadcrumb';
 import Loader from '../../../../components/Loader';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import Alert from "../../../../components/Alert";
 import { countries } from "../../../../inc/country.json";
 
@@ -11,29 +10,9 @@ const Plans = () => {
     const title = 'Select a Plan';
 
     const { userData, authUser } = useContext(AuthContext);
-    const stripe = useStripe();
-    const elements = useElements();
     const mountedRef = useRef(true);
     const { setBreadcrumb } = useContext(BreadcrumbContext);
 
-    const CARD_ELEMENT_OPTIONS = {
-        style: {
-            base: {
-              color: '#32325d',
-              fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-              fontSmoothing: 'antialiased',
-              fontSize: '16px',
-              '::placeholder': {
-                color: '#aab7c4'
-              }
-            },
-            invalid: {
-              color: '#fa755a',
-              iconColor: '#fa755a'
-            }
-        },
-        hidePostalCode: true
-    };
 
     const [loading, setLoading] = useState(true);
     const [processing, setProcessing] = useState(false);
@@ -114,29 +93,12 @@ const Plans = () => {
 
             setCardError(null);
 
-            if (!stripe || !elements) {
-                // Stripe.js has not loaded yet. Make sure to disable
-                // form submission until Stripe.js has loaded.
-                return;
-            }
     
             // Get a reference to a mounted CardElement. Elements knows how
             // to find your CardElement because there can only ever be one of
             // each type of element.
-            const cardElement = elements.getElement(CardElement);
     
-            // Use your card Element with other Stripe.js APIs
-            const {error, paymentMethod} = await stripe.createPaymentMethod({
-                type: 'card',
-                card: cardElement
-            });
     
-            if (error) {
-                setCardError(error.message);
-                hasError = true;
-            } else {
-                paymentMethodId = paymentMethod.id;
-            }
         }
 
         
@@ -270,7 +232,6 @@ const Plans = () => {
                                                                     <Alert type="danger" message={cardError} dismissible={true} onDismiss={() => setCardError(null)}></Alert>
                                                                 }
                                                                 <div className="form-control">
-                                                                    <CardElement options={CARD_ELEMENT_OPTIONS}></CardElement>
                                                                 </div>
                                                             </div>
                                                         </div>
