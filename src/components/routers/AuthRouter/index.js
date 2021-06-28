@@ -21,7 +21,7 @@ const AuthRouter = ({component: Component, template: Template, title: Title, ...
                             <Component {...matchProps} />  
                         </Template>
                     ):(
-                        <Redirect to={"/signin?re="+document.location.pathname+document.location.search} />
+                        <Redirect to='/' /> /* to={"/signin?re="+document.location.pathname+document.location.search}  */
                     )
                 ):(
                     <PublicTemplate>
